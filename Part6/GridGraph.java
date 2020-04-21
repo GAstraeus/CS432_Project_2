@@ -17,8 +17,8 @@ public class GridGraph{
     }
 
     public void addUndirectedEdge(final Node first, final Node second){
-        first.children.add(second);
-        second.children.add(first);
+            first.children.add(second);
+            second.children.add(first);
     }
 
     public void removeDirectedEdge(final Node first, final Node second){
@@ -59,4 +59,5 @@ public class GridGraph{
             children.add(getNode(node.x,node.y+1));
         return children;
     }
+
 }

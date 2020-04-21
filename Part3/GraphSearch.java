@@ -6,7 +6,7 @@ public class GraphSearch {
 
     public GraphSearch(Graph graph){
         this.graph = graph;
-        this.found = false;
+        this.found = false; //Indicated weather a paritiular search yeilded a vaild path and the destination node is found
     }
 
     public ArrayList<Node> DFSRec(final Node start, final Node end){
@@ -30,8 +30,6 @@ public class GraphSearch {
         visited.add(start);
         HashSet<Node>  children = graph.getChildren(start);
         for(Node child : children){
-            if (this.found)
-                return;
             if (!visited.contains(child))
                 DFSRec(child,end,visited,order);
         }
@@ -63,26 +61,23 @@ public class GraphSearch {
         return null;
     }
 
-    public ArrayList<Node> BFSRec(final Node start, final Node end){
+    public ArrayList<Node> BFSRec(Graph graphh){
         Queue<Node> toVisit = new LinkedList<>();
         HashSet<Node> visited = new HashSet<>();
         ArrayList<Node> order = new ArrayList<>();
         this.found = false;
-        toVisit.add(start);
-        visited.add(start);
-        BFSRec(start,end,toVisit, visited, order);
-        if(this.found)
-            return order;
-        return null;
+        for (Node node : graphh.getAllNodes()){
+            if (!visited.contains(node)){
+                toVisit.add(node);
+                visited.add(node);
+                BFSRec(node,toVisit, visited, order);
+            }
+        }
+        return order;
     }
-    private void BFSRec(final Node start, final Node end, Queue<Node> toVisit, HashSet<Node> visitied, ArrayList<Node> order){
+    private void BFSRec(final Node start, Queue<Node> toVisit, HashSet<Node> visitied, ArrayList<Node> order){
         if (!toVisit.isEmpty()){
             Node curr = toVisit.poll();
-            if (curr == end){
-                this.found = true;
-                order.add(curr);
-                return;
-            }
             order.add(curr);
             for (Node child : graph.getChildren(curr)){
                 if (!visitied.contains(child)){
@@ -90,25 +85,22 @@ public class GraphSearch {
                     toVisit.add(child);
                 }
             }
-            BFSRec(start,end,toVisit,visitied,order);
+            BFSRec(start,toVisit,visitied,order);
         }
     }
-    public ArrayList<Node> BFSIterative(final Node start, final Node end){
+    public ArrayList<Node> BFSIterative(Graph graphh){
         Queue<Node> toVisit = new LinkedList<>();
         HashSet<Node> visited = new HashSet<>();
         ArrayList<Node> order = new ArrayList<>();
         this.found = false;
-        toVisit.add(start);
-        visited.add(start);
-
-        while(!toVisit.isEmpty()){
-            Node curr = toVisit.poll();
-            if (curr == end){
-                this.found = true;
-                order.add(curr);
-                break;
+        for(Node node : graphh.getAllNodes()){
+            if (!visited.contains(node)){
+                toVisit.add(node);
+                visited.add(node);
             }
-            else {
+            while(!toVisit.isEmpty()){
+                Node curr = toVisit.poll();
+
                 order.add(curr);
                 HashSet<Node> children = graph.getChildren(curr);
                 for (Node child : children) {
@@ -117,11 +109,10 @@ public class GraphSearch {
                         toVisit.add(child);
                     }
                 }
+
             }
         }
-        if(this.found)
-            return order;
-        return null;
+        return order;
     }
 
 }

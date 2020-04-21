@@ -1,3 +1,4 @@
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class Node implements Comparable{
@@ -19,8 +20,12 @@ public class Node implements Comparable{
     @Override
     public int compareTo(Object o){
         Node node2 = (Node) o;
-        Integer one = Integer.parseInt(this.value);
-        Integer two = Integer.parseInt(node2.value);
-        return one.compareTo(two);
+        try{
+            Integer one = Integer.parseInt(this.value);
+            Integer two = Integer.parseInt(node2.value);
+            return one.compareTo(two);
+        }catch(NumberFormatException e){
+            return this.value.compareTo(node2.value);
+        }
     }
 }

@@ -12,7 +12,8 @@ public class Graph {
 
     public void addNode(final String nodeVal){
         Node node = new Node(nodeVal);
-        graph.put(node, new HashSet<>());
+        if (!graph.containsKey(node))
+            graph.put(node, new HashSet<>());
     }
 
     public void addUndirectedEdge(final Node first, final Node second){

@@ -1,4 +1,5 @@
-import java.lang.reflect.Array;
+import javafx.util.Pair;
+
 import java.util.*;
 
 public class Main {
@@ -24,11 +25,12 @@ public class Main {
         return graph;
     }
     public static ArrayList<Node> astar(final Node start, final Node end){
+        PriorityQueue<Pair<Node,Integer>> priorityQueue = new PriorityQueue<Pair<Node,Integer>>(new aStarNodeComparator());
         HashMap<Node, int[]> distances = new HashMap<>();
         HashSet<Node> finalize = new HashSet<>();
         HashMap<Node, Node> parent = new HashMap<>();
-
-        distances.put(start, new int[] {0,h(start, end)});
+        //priorityQueue.add(new Pair<>(start,heuristic(start,end)));
+        distances.put(start, new int[] {0,heuristic(start, end)});
         parent.put(start,null);
 
         Node curr = start;
@@ -36,15 +38,17 @@ public class Main {
             finalize.add(curr);
             for (Node child : curr.children){
                 if (!finalize.contains(child)){
-                    int d = distances.get(curr)[0]+1;
-                    int h = h(child, end);
-                    if (!distances.containsKey(child) || d+h < distances.get(child)[0]+distances.get(child)[1]){
-                        distances.put(child, new int[] {d,h});
+                    int distance = distances.get(curr)[0]+1;
+                    int Heuristic = heuristic(child, end);
+                    if (!distances.containsKey(child) || distance+Heuristic < distances.get(child)[0]+distances.get(child)[1]){
+                        priorityQueue.add(new Pair<>(child,distance+Heuristic));
+                        distances.put(child, new int[] {distance,Heuristic});
                         parent.put(child, curr);
                     }
                 }
             }
             int minDistance = Integer.MAX_VALUE;
+            curr = priorityQueue.poll().getKey();
             for (Node n: distances.keySet()){
                 if (distances.get(n)[0]+distances.get(n)[1] < minDistance && !finalize.contains(n)){
                     curr = n;
@@ -63,7 +67,14 @@ public class Main {
         return order;
     }
 
-    public static int h(final Node node, final Node dest) {
-        return dest.x - node.x + dest.y - node.y;
+    public static int heuristic(final Node node, final Node dest) {
+        return Math.abs(dest.x - node.x + dest.y - node.y);
+    }
+}
+
+class aStarNodeComparator implements Comparator<Pair<Node, Integer>> {
+    public int compare(Pair<Node,Integer> obj1, Pair<Node,Integer> obj2)
+    {
+        return obj1.getValue().compareTo(obj2.getValue());
     }
 }

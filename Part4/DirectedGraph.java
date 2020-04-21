@@ -31,12 +31,11 @@ public class DirectedGraph{
     }
 
     public HashSet<Node> getChildren(Node node){
-        return this.graph.get(graph.indexOf(node)).children;
+        return node.children;
     }
 
     public Node getNode(final String value){
-        HashSet<Node> nodes = getAllNodes();
-        for (Node n : nodes){
+        for (Node n : graph){
             if (n.value.equals(value))
                 return n;
         }

@@ -66,22 +66,19 @@ public class Main {
 
     public static ArrayList<Node> BFTRecLinkedList(final Graph graph){
         GraphSearch search = new GraphSearch(graph);
-        return search.BFSRec(graph.getNode("0"),graph.getNode("9999"));
+        return search.BFSRec(graph);
     }
 
     public static ArrayList<Node> BFTIterLinkedList(final Graph graph){
         GraphSearch search = new GraphSearch(graph);
-        return search.BFSIterative(graph.getNode("0"),graph.getNode("9999"));
+        return search.BFSIterative(graph);
     }
 
     public static ArrayList<Node> testDFSRec(){
         Graph graph = new Graph();
-        graph.addNode("1");
-        graph.addNode("2");
-        graph.addNode("3");
-        graph.addNode("4");
-        graph.addNode("5");
-        graph.addNode("6");
+        for (int i = 1; i<=6; i++){
+            graph.addNode(Integer.toString(i));
+        }
         graph.addUndirectedEdge(graph.getNode("1"),graph.getNode("2"));
         graph.addUndirectedEdge(graph.getNode("2"),graph.getNode("3"));
         graph.addUndirectedEdge(graph.getNode("2"),graph.getNode("4"));
@@ -121,7 +118,7 @@ public class Main {
         graph.addUndirectedEdge(graph.getNode("4"),graph.getNode("5"));
         graph.addUndirectedEdge(graph.getNode("5"),graph.getNode("6"));
         GraphSearch search = new GraphSearch(graph);
-        return search.BFSRec(graph.getNode("1"), graph.getNode("5"));
+        return search.BFSRec(graph);
     }
 
     public static ArrayList<Node> testBFSIter(){
@@ -138,6 +135,6 @@ public class Main {
         graph.addUndirectedEdge(graph.getNode("4"),graph.getNode("5"));
         graph.addUndirectedEdge(graph.getNode("5"),graph.getNode("6"));
         GraphSearch search = new GraphSearch(graph);
-        return search.BFSIterative(graph.getNode("1"), graph.getNode("5"));
+        return search.BFSIterative(graph);
     }
 }

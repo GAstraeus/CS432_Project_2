@@ -7,12 +7,22 @@ public class TopSort {
         ArrayList<Node> out = new ArrayList<>();
         Queue<Node> queue = new LinkedList<>();
         HashMap<Node, Integer> degrees = graph.getIndegrees();
-        addZeroIndegree(queue, degrees);
+        for (Node node: degrees.keySet()){
+            if (degrees.get(node) == 0){
+                queue.add(node);
+            }
+        }
         while (!queue.isEmpty()){
             Node curr = queue.poll();
             out.add(curr);
-            decrementChildrenDegree(curr, degrees);
-            addZeroIndegreeChildren(queue, curr, degrees);
+            for (Node child : curr.children){
+                degrees.put(child, degrees.get(child)-1);
+            }
+            for (Node n: curr.children){
+                if (degrees.get(n) == 0){
+                    queue.add(n);
+                }
+            }
         }
         return out;
     }

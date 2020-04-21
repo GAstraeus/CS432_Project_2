@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.*;
 
 public class Main {
@@ -10,7 +11,7 @@ public class Main {
     public static WeightedGraph createRandomCompleteWeightedGraph(final int n){
         WeightedGraph graph = new WeightedGraph();
         for (int i =0; i<n; i++){
-            graph.addNode(i+"");
+            graph.addNode(Integer.toString(i));
         }
         Random rand = new Random();
         for (Node node : graph.getAllNodes()){
@@ -27,7 +28,7 @@ public class Main {
     public static WeightedGraph createLinkedList(final int n){
         WeightedGraph graph = new WeightedGraph();
         for (int i =0; i<n; i++){
-            graph.addNode(i+"");
+            graph.addNode(Integer.toString(i));
         }
         Node[] nodes = graph.getAllNodes().toArray(new Node[0]);
         Arrays.sort(nodes);
@@ -40,11 +41,12 @@ public class Main {
     public static HashMap<Node, Integer> dijkstras(final Node start){
         HashMap<Node, Integer> mapping = new HashMap<>();
         for (Node dest : start.children.keySet()){
-            mapping.put(dest, dijkstras(start,dest));
+            mapping.put(dest, dijkstrasShortestDistance(start,dest));
         }
         return mapping;
     }
-    public static int dijkstras(final Node start, final Node dest){
+
+    public static int dijkstrasShortestDistance(final Node start, final Node dest){
         HashMap<Node, Integer> distances = new HashMap<>();
         HashSet<Node> finalized = new HashSet<>();
         distances.put(start,0);

@@ -8,6 +8,12 @@ public class Node implements Comparable{
     public int x;
     public int y;
 
+    /**
+     *
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param value
+     */
     public Node(final int x, final int y, final String value){
         this.value = value;
         this.children = new HashSet<>();
@@ -29,5 +35,37 @@ public class Node implements Comparable{
         Integer one = Integer.parseInt(this.value);
         Integer two = Integer.parseInt(node2.value);
         return one.compareTo(two);
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public HashSet<Node> getChildren() {
+        return children;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setChildren(HashSet<Node> children) {
+        this.children = children;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 }
